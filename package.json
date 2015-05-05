@@ -22,9 +22,10 @@
     "through": "~2.3.6"
   },
   "devDependencies": {
-    "example-runner": "^0.2.0",
+    "es6-default-params": "^0.4.3",
+    "es6-module-crosspiler": "^2.0.1",
     "es6-rest-params": "^0.3.1",
-    "es6-default-params": "^0.4.3"
+    "example-runner": "^0.2.0"
   },
   "scripts": {
     "test": "node test/runner.js"

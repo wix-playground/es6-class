@@ -11,6 +11,7 @@ var recast = require('recast');
 var es6class = require('../lib');
 var es6restParams = require('es6-rest-params');
 var es6defaultParams = require('es6-default-params');
+var es6moduleCrosspiler = require('es6-module-crosspiler');
 
 var fs = require('fs');
 var path = require('path');
@@ -28,11 +29,12 @@ require('example-runner').runCLI(process.argv.slice(2), {
     };
 
     var ast = recast.parse(source, recastOptions);
-    ast = es6defaultParams.transform(es6restParams.transform(es6class.transform(ast)));
+    ast = es6moduleCrosspiler.transform(es6defaultParams.transform(es6restParams.transform(es6class.transform(ast))));
     var result = recast.print(ast, recastOptions);
+    var code = 'var module = { exports: {} }; var exports = module.exports;' + result.code;
 
-    fs.writeFileSync(path.join(RESULTS, testName + '.js'), result.code, 'utf8');
+    fs.writeFileSync(path.join(RESULTS, testName + '.js'), code, 'utf8');
     fs.writeFileSync(path.join(RESULTS, testName + '.js.map'), JSON.stringify(result.map), 'utf8');
-    return result.code;
+    return code;
   }
 });
